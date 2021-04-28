@@ -60,7 +60,7 @@ func HandleTestTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevents.
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Create a FIS client from config.
+	// Create a FIS client from config https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/fis#NewFromConfig
 	svc := fis.NewFromConfig(cfg)
 
 	// empty input
