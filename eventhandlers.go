@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
@@ -8,6 +9,9 @@ import (
 	cloudevents "github.com/cloudevents/sdk-go/v2" // make sure to use v2 cloudevents here
 	keptn "github.com/keptn/go-utils/pkg/lib"
 	keptnv2 "github.com/keptn/go-utils/pkg/lib/v0_2_0"
+
+	"github.com/aws/aws-sdk-go-v2/config"
+	fis "github.com/aws/aws-sdk-go-v2/service/fis"
 )
 
 /**
@@ -51,6 +55,25 @@ func HandleDeploymentTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloude
 // TODO: add in your handler code
 func HandleTestTriggeredEvent(myKeptn *keptnv2.Keptn, incomingEvent cloudevents.Event, data *keptnv2.TestTriggeredEventData) error {
 	log.Printf("Handling test.triggered Event: %s", incomingEvent.Context.GetID())
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Create a FIS client from config.
+	svc := fis.NewFromConfig(cfg)
+
+	// empty input
+	experimentInput := fis.StartExperimentInput{}
+
+	// start experiment
+	expOutput, err := svc.StartExperiment(context.TODO(), &experimentInput)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// print something from the experiment output
+	fmt.Println("Experiment Template ID: ", expOutput.Experiment.ExperimentTemplateId)
 
 	return nil
 }
