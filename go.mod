@@ -3,7 +3,7 @@ module github.com/keptn-sandbox/aws-fix-service
 go 1.13
 
 require (
-	github.com/aws/aws-sdk-go-v2/config v1.1.6
+	github.com/aws/aws-sdk-go-v2/config v1.15.2
 	github.com/aws/aws-sdk-go-v2/service/fis v1.1.1
 	github.com/cloudevents/sdk-go/v2 v2.3.1
 	github.com/kelseyhightower/envconfig v1.4.0
